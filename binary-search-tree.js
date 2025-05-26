@@ -1,11 +1,8 @@
+import {buildTree, Node} from "./node.js";
+
 class binarySearchTree {
-  constructor(root, array) {
-    this.root = root;
-    this.array = array;
-  }
-
-  buildTree(array) {
-
+  constructor(array) {
+    this.root = buildTree(array);
   }
 
   insert(value) {

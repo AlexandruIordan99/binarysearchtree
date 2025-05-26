@@ -1,11 +1,42 @@
-class node{
-  constructor(value, leftChild, rightChild){
+import {mergeSort} from "./merge-sort";
+
+export class Node{
+  constructor(value){
     this.value = value;
-    this.leftChild = leftChild;
-    this.rightChild = rightChild;
+    this.leftChild = null;
+    this.rightChild = null;
+  }
+}
+function removeDuplicates(arr){
+  let arraySet= new Set(arr);
+  return Array.from(arraySet);
+}
+
+function sortArray(arr){
+  return mergeSort(arr);
+}
+
+function buildSearchTree(sortedArr, start, end){
+  if (start > end) {
+    return null;
   }
 
+  const middle= Math.floor((end + start) / 2);
+
+  const root =  new Node(sortedArr[middle]);
+  root.leftChild = buildTree(sortedArr, start, middle -1);
+  root.rightChild = buildTree(sortedArr, middle + 1, end);
+  return root;
+
 }
+
+
+export function buildTree(arr){
+  let array = removeDuplicates(arr);
+  let sortedArr = sortArray(array);
+  return buildSearchTree(sortedArr, 0, sortedArr.length - 1);
+}
+
 
 
 
