@@ -1,6 +1,6 @@
 import {buildTree, Node} from "./node.js";
 
-class binarySearchTree {
+export class BinarySearchTree {
   constructor(array) {
     this.root = buildTree(array);
   }
@@ -12,14 +12,14 @@ class binarySearchTree {
       if (root === null){
         return new Node(value);
       }
-      if (root === value) {
+      if (root.value === value) {
         return root;
-      } else if (value < root.data) {
+      } else if (value < root.value) {
         root.left = addValue(root.left, value);
       } else {
         root.right = addValue(root.right, value);
       }
-      return addValue(value);
+      return root;
     }
     this.root = addValue(this.root, value);
   }
@@ -28,9 +28,9 @@ class binarySearchTree {
     const deleteRecursively = function(root, value) {
       if (root === null) return null;
 
-      if (value < root.data) {
+      if (value < root.value) {
         root.left = deleteRecursively(root.left, value);
-      } else if (value > root.data) {
+      } else if (value > root.value) {
         root.right = deleteRecursively(root.right, value);
       } else {
         if (root.left === null && root.right === null) {
@@ -41,7 +41,7 @@ class binarySearchTree {
           return root.left;
         } else {
           let successorValue = findMin(root.right);
-          root.data = successorValue;
+          root.value = successorValue;
           root.right = deleteRecursively(root.right, successorValue);
         }
       }
@@ -53,7 +53,7 @@ class binarySearchTree {
       while (node.left !== null) {
         node = node.left;
       }
-      return node.data;
+      return node.value;
     };
 
     this.root = deleteRecursively(this.root, value);
@@ -67,9 +67,9 @@ class binarySearchTree {
         return null;
       }
 
-      if (root.data === value){
+      if (root.value === value){
         return root;
-      } else if (root.data > value){
+      } else if (root.value > value){
         return findNode(root.left, value);
       } else {
         return findNode(root.right, value);
@@ -79,7 +79,7 @@ class binarySearchTree {
   }
 
   levelOrder(callback){  //callback can be a function you pass to it, like console.log()
-                         //Example: tree.levelOrder(node => console.log(node.data));
+                         //Example: tree.levelOrder(node => console.log(node.value));
     if (callback === null){
       return "Error: Callback function is not defined."
     }
@@ -118,7 +118,7 @@ class binarySearchTree {
       }
       return visitNode(node);
     }
-
+    visitNode(this.root)
 
   }
 
@@ -143,6 +143,7 @@ class binarySearchTree {
       }
       return visitNode(node);
     }
+    visitNode(this.root)
 
   }
 
@@ -167,6 +168,7 @@ class binarySearchTree {
       callback(node);
       return visitNode(node);
     }
+    visitNode(this.root)
 
   }
 
@@ -192,9 +194,6 @@ class binarySearchTree {
     return 1 + Math.max(this.heightCalculation(node.left), this.heightCalculation(node.right));
   }
 
-
-
-
   depth(value){
     if (this.root === null){
       return null;
@@ -217,13 +216,21 @@ class binarySearchTree {
     return null;
   }
 
-
-
   isBalanced(){
-    if (this.root === null){
+    let node = this.root;
+    if (node === null){
       return "There is no tree.";
     }
 
+    let left= this.heightCalculation(node.left) //need to get heights to check if the diff is at most 1
+    let right = this.heightCalculation(node.right)
+
+    let leftBalanced = this.isBalanced(left);
+    let rightBalanced = this.isBalanced(right);
+
+    if (Math.abs(left - right) <=1 && leftBalanced && rightBalanced){
+      return true;
+    }
   }
 
   rebalance(){
@@ -233,23 +240,30 @@ class binarySearchTree {
     if (this.isBalanced()){
       return "Tree is already balanced";
     }
+    let array =[];
+    let balance = this.isBalanced();
 
+    this.inOrder(node => array.push(node.value));
+
+    if (balance){
+      return;
+    } else{
+      this.root = buildTree(array);
+    }
   }
 
 
-  prettyPrint = (node, prefix = '', isLeft = true) => {
+  prettyPrint(node = this.root, prefix = '', isLeft = true){
     if (node === null) {
       return;
     }
     if (node.right !== null) {
-      prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+      this.prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
     }
-    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.value}`);
     if (node.left !== null) {
-      prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+      this.prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     }
-  };
-
+  }
 
 }
-
