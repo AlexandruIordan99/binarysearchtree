@@ -7,7 +7,7 @@ export function mergeSort(arr, start = 0, end = arr.length - 1) {
     return arr;
   }
 
-  const middle = Math.floor(arr.length / 2);
+  const middle = Math.floor((start + end) / 2);
   mergeSort(arr, start, middle);
   mergeSort(arr, middle+1, end);
   merge(arr, start,middle, end);

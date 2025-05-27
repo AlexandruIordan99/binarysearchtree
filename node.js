@@ -10,8 +10,8 @@ export class Node{
 
 export function buildTree(arr){
   let array = removeDuplicates(arr);
-  let sortedArr = sortArray(array);
-  return buildSearchTree(sortedArr, 0, sortedArr.length - 1);
+  mergeSort(array);
+  return buildSearchTree(array, 0, array.length - 1);
 }
 
 function removeDuplicates(arr){
@@ -19,9 +19,6 @@ function removeDuplicates(arr){
   return Array.from(arraySet);
 }
 
-function sortArray(arr){
-  return mergeSort(arr);
-}
 
 function buildSearchTree(sortedArr, start, end){
   if (start > end) {
@@ -31,10 +28,9 @@ function buildSearchTree(sortedArr, start, end){
   const middle= Math.floor((end + start) / 2);
 
   const root =  new Node(sortedArr[middle]);
-  root.leftChild = buildTree(sortedArr, start, middle -1);
-  root.rightChild = buildTree(sortedArr, middle + 1, end);
+  root.left = buildSearchTree(sortedArr, start, middle -1);
+  root.right = buildSearchTree(sortedArr, middle + 1, end);
   return root;
 
 }
 
-module.exports = {Node};
