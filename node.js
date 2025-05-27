@@ -1,4 +1,4 @@
-import {mergeSort} from "./merge-sort";
+import {mergeSort} from "./merge-sort.js";
 
 export class Node{
   constructor(value){
@@ -7,6 +7,13 @@ export class Node{
     this.rightChild = null;
   }
 }
+
+export function buildTree(arr){
+  let array = removeDuplicates(arr);
+  let sortedArr = sortArray(array);
+  return buildSearchTree(sortedArr, 0, sortedArr.length - 1);
+}
+
 function removeDuplicates(arr){
   let arraySet= new Set(arr);
   return Array.from(arraySet);
@@ -30,15 +37,4 @@ function buildSearchTree(sortedArr, start, end){
 
 }
 
-
-export function buildTree(arr){
-  let array = removeDuplicates(arr);
-  let sortedArr = sortArray(array);
-  return buildSearchTree(sortedArr, 0, sortedArr.length - 1);
-}
-
-
-
-
-
-module.exports = {node};
+module.exports = {Node};
