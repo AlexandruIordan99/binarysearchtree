@@ -170,20 +170,54 @@ class binarySearchTree {
 
   }
 
-  height(value){
-    if (this.root === null){
+  height(value) {
+    if (this.root === null) {
       return null;
     }
+
+    let node = this.find(value);
     let height = 0;
+
+    if (!node) {
+      return null;
+    } else {
+      return this.heightCalculation(node);
+    }
   }
+
+  heightCalculation(node){
+    if (!node) {
+      return -1;
+    }
+    return 1 + Math.max(this.heightCalculation(node.left), this.heightCalculation(node.right));
+  }
+
+
+
 
   depth(value){
     if (this.root === null){
       return null;
     }
+    let currentNode = this.root;
     let depth = 0;
 
+
+    while (currentNode !== null){
+      if (value < currentNode.value){
+        depth++;
+        currentNode = currentNode.left;
+      } else if (value > currentNode.value){
+        depth++;
+        currentNode = currentNode.right;
+      } else {
+        return depth;
+      }
+    }
+    return null;
   }
+
+
 
   isBalanced(){
     if (this.root === null){
@@ -215,6 +249,7 @@ class binarySearchTree {
       prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     }
   };
+
 
 }
 
