@@ -102,9 +102,23 @@ class binarySearchTree {
     if (this.root === null){
       return null;
     }
-    if (callback === null){
-      return "Error: Callback function is not defined."
+    if (typeof callback !== "function" ){
+      return "Error: Callback function is not correctly defined."
     }
+    const visitNode = function(node) {
+      if (node === null){
+        return;
+      }
+      if(node.left !== null){
+        visitNode(node.left);
+      }
+      callback(node);
+      if (node.right !== null){
+        visitNode(node.right);
+      }
+      return visitNode(node);
+    }
+
 
   }
 
@@ -112,30 +126,62 @@ class binarySearchTree {
     if (this.root === null){
       return null;
     }
-    if (callback === null){
-      return "Error: Callback function is not defined."
+    if (typeof callback !== "function" ){
+      return "Error: Callback function is not correctly defined."
     }
+
+    const visitNode = function(node) {
+      if (node === null){
+        return;
+      }
+      callback(node);
+      if(node.left !== null){
+        visitNode(node.left);
+      }
+      if (node.right !== null){
+        visitNode(node.right);
+      }
+      return visitNode(node);
+    }
+
   }
 
   postOrder(callback){
     if (this.root === null){
       return null;
     }
-    if (callback === null){
-      return "Error: Callback function is not defined."
+    if (typeof callback !== "function" ){
+      return "Error: Callback function is not correctly defined."
     }
+
+    const visitNode = function(node) {
+      if (node === null){
+        return;
+      }
+      if(node.left !== null){
+        visitNode(node.left);
+      }
+      if (node.right !== null){
+        visitNode(node.right);
+      }
+      callback(node);
+      return visitNode(node);
+    }
+
   }
 
   height(value){
     if (this.root === null){
       return null;
     }
+    let height = 0;
   }
 
   depth(value){
     if (this.root === null){
       return null;
     }
+    let depth = 0;
 
   }
 
